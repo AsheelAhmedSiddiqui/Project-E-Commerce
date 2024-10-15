@@ -238,9 +238,9 @@ const reviews = [
 ];
 
 // Example Usage:
-console.log("Categories:", categories);
-console.log("Products:", products);
-console.log("Reviews:", reviews);
+// console.log("Categories:", categories);
+// console.log("Products:", products);
+// console.log("Reviews:", reviews);
 
 // Exporting mock data for use in other parts of the website (Optional)
 export { categories, products, reviews };
