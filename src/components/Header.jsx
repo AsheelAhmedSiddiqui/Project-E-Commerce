@@ -1,4 +1,5 @@
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { Badge } from "@nextui-org/badge";
 import {
 	faCartShopping,
 	faSearch,
@@ -47,7 +48,9 @@ export default function MyHeader() {
 					<FontAwesomeIcon icon={faHeart} />
 				</NavbarItem>
 				<NavbarItem>
-					<FontAwesomeIcon icon={faCartShopping} />
+					<Badge content={5} color="danger">
+						<FontAwesomeIcon icon={faCartShopping} />
+					</Badge>
 				</NavbarItem>
 			</NavbarContent>
 		</Navbar>
