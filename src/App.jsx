@@ -9,6 +9,7 @@ import DashboardCategories from "./pages/DashboardCategories";
 import Orders from "./pages/Orders";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import AddProducts from "./pages/AddProducts";
 
 function App() {
 	return (
@@ -26,6 +27,10 @@ function App() {
 				<Route path="/dashboard/products" element={<DashboardProducts />} />
 				<Route path="/dashboard/categories" element={<DashboardCategories />} />
 				<Route path="/dashboard/orders" element={<Orders />} />
+				<Route
+					path="/dashborad/products/addproducts"
+					element={<AddProducts />}
+				/>
 			</Routes>
 		</BrowserRouter>
 	);
