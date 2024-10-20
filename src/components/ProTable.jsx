@@ -25,13 +25,13 @@ export default function ProTable() {
 							</Link>
 						</BreadcrumbItem>
 						<BreadcrumbItem>
-							<span className="">Products</span>
+							<span>Products</span>
 						</BreadcrumbItem>
 					</Breadcrumbs>
 				</div>
-				<Link to={"/dashborad/products/addproducts"}>
-					<Button className="text-lg font-medium">Add Product</Button>
-				</Link>
+				<Button className="text-lg font-medium text-white" color="warning">
+					<Link to={"/dashboard/products/addproducts"}>Add Product</Link>
+				</Button>
 			</div>
 			<Table
 				aria-label="Example static collection table"

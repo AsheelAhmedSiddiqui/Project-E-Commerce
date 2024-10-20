@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function DashboardRightBar() {
 	return (
-		<aside className="w-[240px] bg-[#FFF3E3] py-6 px-4 shadow-xl h-screen">
+		<aside className="w-[240px] bg-[#FFF3E3] py-6 px-4 shadow-xl min-h-screen">
 			<div className="group flex flex-col justify-center gap-2">
 				<Link
 					to={"/dashboard/user"}

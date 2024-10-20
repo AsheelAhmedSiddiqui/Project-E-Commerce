@@ -10,6 +10,7 @@ import Orders from "./pages/Orders";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import AddProducts from "./pages/AddProducts";
+import AddCategory from "./pages/AddCategory";
 
 function App() {
 	return (
@@ -28,8 +29,12 @@ function App() {
 				<Route path="/dashboard/categories" element={<DashboardCategories />} />
 				<Route path="/dashboard/orders" element={<Orders />} />
 				<Route
-					path="/dashborad/products/addproducts"
+					path="/dashboard/products/addproducts"
 					element={<AddProducts />}
+				/>
+				<Route
+					path="/dashboard/categories/addcategory"
+					element={<AddCategory />}
 				/>
 			</Routes>
 		</BrowserRouter>
