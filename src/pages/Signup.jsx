@@ -1,4 +1,4 @@
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input, Spinner } from "@nextui-org/react";
 import React, { useState } from "react";
 import { auth, db } from "../firebase utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,13 +7,13 @@ import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 
-export default   function Signup() {
+export default function Signup() {
 	const [username, setUsername] = useState("");
 	const [userEmail, setUserEmail] = useState("");
 	const [userPassword, setUserPassword] = useState("");
 	const [isLoad, setIsLoad] = useState(false);
 	const navigate = useNavigate();
-	console.log(db);
+	// console.log(db);
 
 	function handleSignup() {
 		setIsLoad(true);
@@ -26,6 +26,9 @@ export default   function Signup() {
 						userID: user.uid,
 						username: username,
 						email: userEmail,
+						role: "visitor",
+						createdAt: `${new Date().toLocaleDateString()}, ${new Date().toLocaleTimeString()}`,
+						isActive: true,
 						password: userPassword,
 					});
 					setIsLoad(false);
@@ -77,7 +80,7 @@ export default   function Signup() {
 						onClick={handleSignup}
 						className="m-4 py-6 text-medium font-medium bg-red-200"
 					>
-						{isLoad ? "loading..." : "Create Account"}
+						{isLoad ? <Spinner color="default" /> : "Create Account"}
 					</Button>
 					<div className="border border-black mt-4"></div>
 					<Button

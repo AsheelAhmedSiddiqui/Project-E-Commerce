@@ -39,16 +39,14 @@ export default function AddCateForm() {
 				categoryName: cateName,
 				categoryDescription: cateDescription,
 				isActive: true,
-				createdAt: `${date}-${monthArr[month]}-${year}`,
-				updatedAt: `${hour}:${min}:${sec}`,
+				createdAt: `${new Date().toLocaleDateString()}, ${new Date().toLocaleTimeString()}`,
 			});
 			await setDoc(doc(db, "categories", docRef.id), {
 				id: docRef.id,
 				categoryName: cateName,
 				categoryDescription: cateDescription,
 				isActive: true,
-				createdAt: `${date}-${monthArr[month]}-${year}`,
-				updatedAt: `${hour}:${min}:${sec}`,
+				createdAt: `${new Date().toLocaleDateString()}, ${new Date().toLocaleTimeString()}`,
 			});
 			navigate("/dashboard/categories");
 			console.log("Document written with ID: ", docRef.id);
@@ -86,11 +84,7 @@ export default function AddCateForm() {
 					color="warning"
 					className="text-lg font-medium w-[300px] py-7"
 				>
-					{loading ? (
-						<Spinner color="default" />
-					) : (
-						"Add Category"
-					)}
+					{loading ? <Spinner color="default" /> : "Add Category"}
 				</Button>
 			</form>
 		</div>

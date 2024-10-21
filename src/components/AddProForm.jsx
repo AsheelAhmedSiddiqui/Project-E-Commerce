@@ -1,5 +1,6 @@
 import {
 	Button,
+	Image,
 	Input,
 	Select,
 	SelectItem,
@@ -15,7 +16,8 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../firebase utils";
+import { auth, db, storage } from "../firebase utils";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 export default function AddProForm() {
 	const [proName, setProName] = useState("");
@@ -23,42 +25,12 @@ export default function AddProForm() {
 	const [price, setPrice] = useState("");
 	const [categories, setCategories] = useState([]);
 	const [category, setCategory] = useState("");
-	const [imageURL, setImageURL] = useState("");
+	const [image, setImage] = useState(null);
+	const [fileName, setFileName] = useState("No selected file");
 	const [stock, setStock] = useState("");
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
-
-	const monthArr = [
-		"Jan",
-		"Feb",
-		"Mar",
-		"Apr",
-		"May",
-		"Jun",
-		"Jul",
-		"Aug",
-		"Sep",
-		"Oct",
-		"Nov",
-		"Dec",
-	];
-
-	const date = new Date().getDate();
-	const month = new Date().getMonth();
-	const year = new Date().getFullYear();
-	const hour = new Date().getHours();
-	const min = new Date().getMinutes();
-	const sec = new Date().getSeconds();
-
-	/*
-	"id": "103",
-	"name": "Leather Sofa",
-	"category": "Living",
-	"price": 25000,
-	"description": "Luxurious leather sofa that adds a premium touch to your living room.",
-	"imageUrl": "https://example.com/leather-sofa.jpg",
-	"stock": 5
-	*/
+	const user = auth.currentUser;
 
 	useEffect(() => {
 		// Real-time listener for categories collection
@@ -74,38 +46,58 @@ export default function AddProForm() {
 		return () => unsubscribe();
 	}, []);
 
+	const random = Math.round(Math.random() * Number.MAX_SAFE_INTEGER);
+	// console.log(random);
+
 	async function handleAddPro() {
 		setLoading(true);
-		try {
-			const docRef = await addDoc(collection(db, "products"), {
-				productName: proName,
-				productDescription: proDescription,
-				price: price,
-				productCategory: category,
-				imageURL: imageURL,
-				stock: stock,
-				isActive: true,
-				createdAt: `${date}-${monthArr[month]}-${year}`,
-				updatedAt: `${hour}:${min}:${sec}`,
-			});
-			await setDoc(doc(db, "products", docRef.id), {
-				id: docRef.id,
-				categoryName: cateName,
-				categoryDescription: cateDescription,
-				isActive: true,
-				createdAt: `${date}-${monthArr[month]}-${year}`,
-				updatedAt: `${hour}:${min}:${sec}`,
-			});
-			navigate("/dashboard/categories");
-			console.log("Document written with ID: ", docRef.id);
-			setLoading(false);
-		} catch (e) {
-			console.error("Error adding document: ", e);
-			alert(e);
-		}
+		const imagesRef = ref(storage, "images/" + random);
+		uploadBytes(imagesRef, fileName).then((user) => {
+			console.log("Uploaded a blob or file!");
+			getDownloadURL(imagesRef)
+				.then(async (url) => {
+					console.log("url aagaya==> " + url);
+
+					try {
+						const docRef = await addDoc(collection(db, "products"), {
+							productName: proName,
+							productDescription: proDescription,
+							price: price,
+							productCategory: category,
+							imageURL: url,
+							stock: stock,
+							isActive: true,
+							createdAt: `${new Date().toLocaleDateString()}, ${new Date().toLocaleTimeString()}`,
+						});
+						console.log("Document written with ID: ", docRef.id);
+						await setDoc(doc(db, "products", docRef.id), {
+							id: docRef.id,
+							productName: proName,
+							productDescription: proDescription,
+							price: price,
+							productCategory: category,
+							imageURL: url,
+							stock: stock,
+							isActive: true,
+							createdAt: `${new Date().toLocaleDateString()}, ${new Date().toLocaleTimeString()}`,
+						});
+						setLoading(false);
+						navigate("/dashboard/products");
+					} catch (e) {
+						setLoading(false);
+						console.error("Error adding document: ", e);
+						alert(e);
+					}
+				})
+				.catch((err) => {
+					setLoading(false);
+					console.log(err);
+					alert(err);
+				});
+		});
 	}
 	return (
-		<div className="my-16 mx-auto">
+		<div className="my-12 mx-auto">
 			<form className=" flex flex-col gap-3 justify-center items-center py-8 shadow-2xl w-[650px] border rounded ">
 				<h1 className="text-xl text-center font-medium mb-4">Add Product</h1>
 				<Input
@@ -144,18 +136,11 @@ export default function AddProForm() {
 					onChange={(e) => setCategory(e.target.value)}
 				>
 					{categories.map((data) => (
-						<SelectItem key={data.id}>{data.categoryName}</SelectItem>
+						<SelectItem value={data.categoryName} key={data.categoryName}>
+							{data.categoryName}
+						</SelectItem>
 					))}
 				</Select>
-				<Input
-					type="file"
-					placeholder="Enter Product Name"
-					label="Product Image"
-					labelPlacement="inside"
-					color="warning"
-					variant="bordered"
-					className="w-[70%]"
-				/>
 				<Textarea
 					placeholder="Enter Product Description"
 					label="Product Description"
@@ -164,12 +149,31 @@ export default function AddProForm() {
 					className="w-[70%]"
 					onChange={(e) => setProDescription(e.target.value)}
 				/>
-				<Button color="warning">
-					{loading ? (
-						"Add Product"
-					) : (
-						<Spinner label="Loading..." color="warning" />
-					)}
+				<div className="w-[70%] image flex gap-2">
+					<Input
+						type="file"
+						placeholder="Enter Product Name"
+						accept="image/*"
+						onChange={(e) => {
+							setFileName(e.target.files[0]);
+							setImage(URL.createObjectURL(e.target.files[0]));
+						}}
+						label="Product Image"
+						labelPlacement="inside"
+						color="warning"
+						variant="bordered"
+						className="w-[70%]"
+					/>
+					<div className="show-image border w-32 h-32 flex items-center justify-center rounded">
+						<Image src={image} className="w-28 h-28" />
+					</div>
+				</div>
+				<Button
+					onClick={handleAddPro}
+					color="warning"
+					className="py-6 px-6 w-[40%] text-lg font-medium text-white mt-4"
+				>
+					{loading ? <Spinner color="default" /> : "Add Product"}
 				</Button>
 			</form>
 		</div>

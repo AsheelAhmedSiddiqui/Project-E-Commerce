@@ -2,6 +2,7 @@ import {
 	BreadcrumbItem,
 	Breadcrumbs,
 	Button,
+	Switch,
 	Table,
 	TableBody,
 	TableCell,
@@ -9,10 +10,29 @@ import {
 	TableHeader,
 	TableRow,
 } from "@nextui-org/react";
-import React from "react";
+import { collection, onSnapshot } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { db } from "../firebase utils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function CateTable() {
+	const [categories, setCategories] = useState([]);
+
+	useEffect(() => {
+		// Real-time listener for categories collection
+		const unsubscribe = onSnapshot(collection(db, "categories"), (snapshot) => {
+			const categoriesList = snapshot.docs.map((doc) => ({
+				id: doc.id,
+				...doc.data(),
+			}));
+			setCategories(categoriesList);
+		});
+
+		// Cleanup the listener when the component is unmounted
+		return () => unsubscribe();
+	}, []);
 	return (
 		<div className="flex flex-col w-[1000px] mx-auto my-8">
 			<div className=" flex justify-between items-center mx-2">
@@ -37,31 +57,31 @@ export default function CateTable() {
 				className="w-[1000px] mx-auto my-4"
 			>
 				<TableHeader>
-					<TableColumn>NAME</TableColumn>
-					<TableColumn>ROLE</TableColumn>
+					<TableColumn>CATEGORY NAME</TableColumn>
+					<TableColumn>CREATED AT</TableColumn>
+					<TableColumn>CATEGORY DESCRIPITON</TableColumn>
 					<TableColumn>STATUS</TableColumn>
 				</TableHeader>
 				<TableBody>
-					<TableRow key="1">
-						<TableCell>Tony Reichert</TableCell>
-						<TableCell>CEO</TableCell>
-						<TableCell>Active</TableCell>
-					</TableRow>
-					<TableRow key="2">
-						<TableCell>Zoey Lang</TableCell>
-						<TableCell>Technical Lead</TableCell>
-						<TableCell>Paused</TableCell>
-					</TableRow>
-					<TableRow key="3">
-						<TableCell>Jane Fisher</TableCell>
-						<TableCell>Senior Developer</TableCell>
-						<TableCell>Active</TableCell>
-					</TableRow>
-					<TableRow key="4">
-						<TableCell>William Howard</TableCell>
-						<TableCell>Community Manager</TableCell>
-						<TableCell>Vacation</TableCell>
-					</TableRow>
+					{categories.map((category) => (
+						<TableRow key={category.id}>
+							<TableCell>{category?.categoryName}</TableCell>
+							<TableCell>{category?.createdAt}</TableCell>
+							<TableCell>
+								{category?.categoryDescription.slice(0, 30) + "...."}
+							</TableCell>
+							<TableCell>
+								{
+									<Switch
+										startContent={<FontAwesomeIcon icon={faCheck} />}
+										endContent={<FontAwesomeIcon icon={faXmark} />}
+										color="success"
+										isSelected={category?.isActive}
+									/>
+								}
+							</TableCell>
+						</TableRow>
+					))}
 				</TableBody>
 			</Table>
 		</div>
