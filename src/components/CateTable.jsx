@@ -2,6 +2,7 @@ import {
 	BreadcrumbItem,
 	Breadcrumbs,
 	Button,
+	Spinner,
 	Switch,
 	Table,
 	TableBody,
@@ -19,15 +20,18 @@ import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function CateTable() {
 	const [categories, setCategories] = useState([]);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		// Real-time listener for categories collection
+		setLoading(true);
 		const unsubscribe = onSnapshot(collection(db, "categories"), (snapshot) => {
 			const categoriesList = snapshot.docs.map((doc) => ({
 				id: doc.id,
 				...doc.data(),
 			}));
 			setCategories(categoriesList);
+			setLoading(false);
 		});
 
 		// Cleanup the listener when the component is unmounted
@@ -63,25 +67,42 @@ export default function CateTable() {
 					<TableColumn>STATUS</TableColumn>
 				</TableHeader>
 				<TableBody>
-					{categories.map((category) => (
-						<TableRow key={category.id}>
-							<TableCell>{category?.categoryName}</TableCell>
-							<TableCell>{category?.createdAt}</TableCell>
+					{loading ? (
+						<TableRow>
 							<TableCell>
-								{category?.categoryDescription.slice(0, 30) + "...."}
+								<Spinner color="warning" />
 							</TableCell>
 							<TableCell>
-								{
-									<Switch
-										startContent={<FontAwesomeIcon icon={faCheck} />}
-										endContent={<FontAwesomeIcon icon={faXmark} />}
-										color="success"
-										isSelected={category?.isActive}
-									/>
-								}
+								<Spinner color="warning" />
+							</TableCell>
+							<TableCell>
+								<Spinner color="warning" />
+							</TableCell>
+							<TableCell>
+								<Spinner color="warning" />
 							</TableCell>
 						</TableRow>
-					))}
+					) : (
+						categories.map((category) => (
+							<TableRow key={category.id}>
+								<TableCell>{category?.categoryName}</TableCell>
+								<TableCell>{category?.createdAt}</TableCell>
+								<TableCell>
+									{category?.categoryDescription.slice(0, 30) + "...."}
+								</TableCell>
+								<TableCell>
+									{
+										<Switch
+											startContent={<FontAwesomeIcon icon={faCheck} />}
+											endContent={<FontAwesomeIcon icon={faXmark} />}
+											color="success"
+											isSelected={category?.isActive}
+										/>
+									}
+								</TableCell>
+							</TableRow>
+						))
+					)}
 				</TableBody>
 			</Table>
 		</div>

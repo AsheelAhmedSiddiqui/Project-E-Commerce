@@ -13,7 +13,12 @@ import {
 	NavbarItem,
 } from "@nextui-org/react";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { CartContext } from "../context/CartContext";
 export default function MyHeader() {
+	const { cartItems } = useContext(CartContext);
+	console.log(cartItems);
+
 	return (
 		<Navbar className="w-[1100px] mx-auto">
 			<NavbarBrand

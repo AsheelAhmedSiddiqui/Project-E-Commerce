@@ -4,6 +4,7 @@ import {
 	BreadcrumbItem,
 	Breadcrumbs,
 	Button,
+	Spinner,
 	Switch,
 	Table,
 	TableBody,
@@ -19,15 +20,18 @@ import { db } from "../firebase utils";
 
 export default function ProTable() {
 	const [products, setProducts] = useState([]);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		// Real-time listener for categories collection
+		setLoading(true);
 		const unsubscribe = onSnapshot(collection(db, "products"), (snapshot) => {
 			const productList = snapshot.docs.map((doc) => ({
 				id: doc.id,
 				...doc.data(),
 			}));
 			setProducts(productList);
+			setLoading(false);
 		});
 
 		// Cleanup the listener when the component is unmounted
@@ -69,35 +73,64 @@ export default function ProTable() {
 					<TableColumn>STATUS</TableColumn>
 				</TableHeader>
 				<TableBody>
-					{products.map((product) => (
-						<TableRow key={product?.id}>
+					{loading ? (
+						<TableRow>
 							<TableCell>
-								<img
-									src={product?.imageURL}
-									className="w-[30px]"
-									alt={product?.productName}
-								/>
+								<Spinner color="warning" />
 							</TableCell>
-							<TableCell>{product?.productName}</TableCell>
-							<TableCell>{product?.price}</TableCell>
-							<TableCell>{product?.createdAt}</TableCell>
-							<TableCell title={product?.productDescription}>
-								{product?.productDescription.slice(0, 20) + "...."}
-							</TableCell>
-							<TableCell>{product?.productCategory}</TableCell>
-							<TableCell>{product?.stock}</TableCell>
 							<TableCell>
-								{
-									<Switch
-										startContent={<FontAwesomeIcon icon={faCheck} />}
-										endContent={<FontAwesomeIcon icon={faXmark} />}
-										color="success"
-										isSelected={product?.isActive}
-									/>
-								}
+								<Spinner color="warning" />
+							</TableCell>
+							<TableCell>
+								<Spinner color="warning" />
+							</TableCell>
+							<TableCell>
+								<Spinner color="warning" />
+							</TableCell>
+							<TableCell>
+								<Spinner color="warning" />
+							</TableCell>
+							<TableCell>
+								<Spinner color="warning" />
+							</TableCell>
+							<TableCell>
+								<Spinner color="warning" />
+							</TableCell>
+							<TableCell>
+								<Spinner color="warning" />
 							</TableCell>
 						</TableRow>
-					))}
+					) : (
+						products.map((product) => (
+							<TableRow key={product?.id}>
+								<TableCell>
+									<img
+										src={product?.imageURL}
+										className="w-[30px]"
+										alt={product?.productName}
+									/>
+								</TableCell>
+								<TableCell>{product?.productName}</TableCell>
+								<TableCell>{product?.price}</TableCell>
+								<TableCell>{product?.createdAt}</TableCell>
+								<TableCell title={product?.productDescription}>
+									{product?.productDescription.slice(0, 20) + "...."}
+								</TableCell>
+								<TableCell>{product?.productCategory}</TableCell>
+								<TableCell>{product?.stock}</TableCell>
+								<TableCell>
+									{
+										<Switch
+											startContent={<FontAwesomeIcon icon={faCheck} />}
+											endContent={<FontAwesomeIcon icon={faXmark} />}
+											color="success"
+											isSelected={product?.isActive}
+										/>
+									}
+								</TableCell>
+							</TableRow>
+						))
+					)}
 				</TableBody>
 			</Table>
 		</div>

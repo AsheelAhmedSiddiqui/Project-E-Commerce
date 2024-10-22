@@ -16,6 +16,7 @@ import {
 	Breadcrumbs,
 	BreadcrumbItem,
 	Input,
+	Spinner,
 } from "@nextui-org/react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -24,17 +25,20 @@ import { Link } from "react-router-dom";
 export default function UsersTable() {
 	const [users, setUsers] = useState([]);
 	const [isVisible, setIsVisible] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	const toggleVisibility = () => setIsVisible(!isVisible);
 
 	useEffect(() => {
 		// Real-time listener for categories collection
+		setLoading(true);
 		const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
 			const usersList = snapshot.docs.map((doc) => ({
 				id: doc.id,
 				...doc.data(),
 			}));
 			setUsers(usersList);
+			setLoading(false);
 		});
 
 		// Cleanup the listener when the component is unmounted
@@ -69,47 +73,70 @@ export default function UsersTable() {
 					<TableColumn>STATUS</TableColumn>
 				</TableHeader>
 				<TableBody>
-					{users.map((user) => (
-						<TableRow key={user?.userID}>
-							<TableCell>{user?.username}</TableCell>
+					{loading ? (
+						<TableRow>
 							<TableCell>
-								<Input
-									readOnly
-									variant="underlined"
-									endContent={
-										<button
-											className="focus:outline-none"
-											type="button"
-											onClick={toggleVisibility}
-											aria-label="toggle password visibility"
-										>
-											{isVisible ? (
-												<FontAwesomeIcon icon={faEyeSlash} />
-											) : (
-												<FontAwesomeIcon icon={faEye} />
-											)}
-										</button>
-									}
-									value={user?.password}
-									type={isVisible ? "text" : "password"}
-									className="max-w-xs"
-								/>
+								<Spinner color="warning" />
 							</TableCell>
-							<TableCell>{user?.email}</TableCell>
-							<TableCell>{user?.createdAt}</TableCell>
-							<TableCell>{user?.role}</TableCell>
 							<TableCell>
-								{
-									<Switch
-										startContent={<FontAwesomeIcon icon={faCheck} />}
-										endContent={<FontAwesomeIcon icon={faXmark} />}
-										color="success"
-										isSelected={user?.isActive}
-									/>
-								}
+								<Spinner color="warning" />
+							</TableCell>
+							<TableCell>
+								<Spinner color="warning" />
+							</TableCell>
+							<TableCell>
+								<Spinner color="warning" />
+							</TableCell>
+							<TableCell>
+								<Spinner color="warning" />
+							</TableCell>
+							<TableCell>
+								<Spinner color="warning" />
 							</TableCell>
 						</TableRow>
-					))}
+					) : (
+						users.map((user) => (
+							<TableRow key={user?.userID}>
+								<TableCell>{user?.username}</TableCell>
+								<TableCell>
+									<Input
+										readOnly
+										variant="underlined"
+										endContent={
+											<button
+												className="focus:outline-none"
+												type="button"
+												onClick={toggleVisibility}
+												aria-label="toggle password visibility"
+											>
+												{isVisible ? (
+													<FontAwesomeIcon icon={faEyeSlash} />
+												) : (
+													<FontAwesomeIcon icon={faEye} />
+												)}
+											</button>
+										}
+										value={user?.password}
+										type={isVisible ? "text" : "password"}
+										className="max-w-xs"
+									/>
+								</TableCell>
+								<TableCell>{user?.email}</TableCell>
+								<TableCell>{user?.createdAt}</TableCell>
+								<TableCell>{user?.role}</TableCell>
+								<TableCell>
+									{
+										<Switch
+											startContent={<FontAwesomeIcon icon={faCheck} />}
+											endContent={<FontAwesomeIcon icon={faXmark} />}
+											color="success"
+											isSelected={user?.isActive}
+										/>
+									}
+								</TableCell>
+							</TableRow>
+						))
+					)}
 				</TableBody>
 			</Table>
 		</div>

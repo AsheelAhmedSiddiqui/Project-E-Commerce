@@ -29,17 +29,20 @@ export default function AddProForm() {
 	const [fileName, setFileName] = useState("No selected file");
 	const [stock, setStock] = useState("");
 	const [loading, setLoading] = useState(false);
+	const [cateLoading, setCateLoading] = useState(false);
 	const navigate = useNavigate();
 	const user = auth.currentUser;
 
 	useEffect(() => {
 		// Real-time listener for categories collection
+		setCateLoading(true);
 		const unsubscribe = onSnapshot(collection(db, "categories"), (snapshot) => {
 			const categoriesList = snapshot.docs.map((doc) => ({
 				id: doc.id,
 				...doc.data(),
 			}));
 			setCategories(categoriesList);
+			setCateLoading(false);
 		});
 
 		// Cleanup the listener when the component is unmounted
@@ -135,11 +138,17 @@ export default function AddProForm() {
 					className="w-[70%]"
 					onChange={(e) => setCategory(e.target.value)}
 				>
-					{categories.map((data) => (
-						<SelectItem value={data.categoryName} key={data.categoryName}>
-							{data.categoryName}
+					{cateLoading ? (
+						<SelectItem>
+							<Spinner color="warning" />
 						</SelectItem>
-					))}
+					) : (
+						categories.map((data) => (
+							<SelectItem value={data.categoryName} key={data.categoryName}>
+								{data.categoryName}
+							</SelectItem>
+						))
+					)}
 				</Select>
 				<Textarea
 					placeholder="Enter Product Description"
