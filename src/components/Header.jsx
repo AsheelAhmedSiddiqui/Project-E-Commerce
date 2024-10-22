@@ -1,10 +1,6 @@
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { Badge } from "@nextui-org/badge";
-import {
-	faCartShopping,
-	faSearch,
-	faUserXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping, faUserXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	Navbar,
@@ -13,11 +9,12 @@ import {
 	NavbarItem,
 } from "@nextui-org/react";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
+import { useContext } from "react";
+import { auth } from "../firebase utils";
 export default function MyHeader() {
-	const { cartItems } = useContext(CartContext);
-	console.log(cartItems);
+	const { cart } = useContext(CartContext);
+	const user = auth.currentUser;
 
 	return (
 		<Navbar className="w-[1100px] mx-auto">
@@ -42,21 +39,37 @@ export default function MyHeader() {
 					<Link to={"/contact"}>contact</Link>
 				</NavbarItem>
 			</NavbarContent>
-			<NavbarContent justify="end" className="flex gap-8">
-				<NavbarItem>
-					<FontAwesomeIcon icon={faUserXmark} />
-				</NavbarItem>
-				<NavbarItem>
-					<FontAwesomeIcon icon={faSearch} />
-				</NavbarItem>
-				<NavbarItem>
-					<FontAwesomeIcon icon={faHeart} />
-				</NavbarItem>
-				<NavbarItem>
-					<Badge content={5} color="danger">
-						<FontAwesomeIcon icon={faCartShopping} />
-					</Badge>
-				</NavbarItem>
+			<NavbarContent justify="end" className="flex gap-6">
+				{user ? (
+					<>
+						<NavbarItem>
+							<FontAwesomeIcon icon={faUser} />
+						</NavbarItem>
+						<p className="text-warning-500">{user.email}</p>
+						<NavbarItem>
+							<Link to={"/cart"}>
+								<Badge content={cart.length} color="danger">
+									<FontAwesomeIcon icon={faCartShopping} />
+								</Badge>
+							</Link>
+						</NavbarItem>
+					</>
+				) : (
+					<>
+						<Link to={"/login"}>
+							<NavbarItem>
+								<FontAwesomeIcon icon={faUserXmark} />
+							</NavbarItem>
+						</Link>
+						<NavbarItem>
+							<Link to={"/cart"}>
+								<Badge content={cart.length} color="danger">
+									<FontAwesomeIcon icon={faCartShopping} />
+								</Badge>
+							</Link>
+						</NavbarItem>
+					</>
+				)}
 			</NavbarContent>
 		</Navbar>
 	);

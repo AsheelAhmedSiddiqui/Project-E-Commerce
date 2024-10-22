@@ -47,13 +47,16 @@ export default function Signup() {
 			});
 	}
 
+	// console.log(auth.currentUser)
+
 	return (
 		<div className="container h-screen flex items-center justify-center mx-auto">
-			<form className=" w-[500px] bg-[#fff3e3] py-6 px-4 rounded shadow-md">
-				<h1 className="text-center text-3xl font-medium">Create Account</h1>
+			<form className=" w-[500px] shadow-xl py-6 px-4 rounded border-2 border-warning-500">
+				<h1 className="text-center text-3xl font-medium text-warning-500">Create Account</h1>
 				<div className="input-group flex justify-center flex-col gap-6">
 					<div className="username">
 						<Input
+							color="warning"
 							type="username"
 							label="Username"
 							variant="underlined"
@@ -62,6 +65,7 @@ export default function Signup() {
 					</div>
 					<div className="email">
 						<Input
+							color="warning"
 							type="email"
 							label="Email"
 							variant="underlined"
@@ -70,6 +74,7 @@ export default function Signup() {
 					</div>
 					<div className="password">
 						<Input
+							color="warning"
 							type="password"
 							label="Password"
 							variant="underlined"
@@ -77,15 +82,17 @@ export default function Signup() {
 						/>
 					</div>
 					<Button
+						color="warning"
 						onClick={handleSignup}
-						className="m-4 py-6 text-medium font-medium bg-red-200"
+						className="m-4 py-6 font-medium text-white text-lg"
 					>
 						{isLoad ? <Spinner color="default" /> : "Create Account"}
 					</Button>
-					<div className="border border-black mt-4"></div>
+					<div className="border border-warning-500 mt-4"></div>
 					<Button
+						color="warning"
 						startContent={<FontAwesomeIcon icon={faGoogle} />}
-						className="m-2 py-6 text-medium font-medium"
+						className="m-2 py-6 text-medium font-medium hover:bg-warning-500 hover:text-white"
 						variant="bordered"
 					>
 						Sign up with Google

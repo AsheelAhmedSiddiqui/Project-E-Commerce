@@ -11,34 +11,38 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import AddProducts from "./pages/AddProducts";
 import AddCategory from "./pages/AddCategory";
+import CartPage from "./pages/CartPage";
+import CheckOut from "./pages/CheckOut";
 
 function App() {
-	return (
-		<BrowserRouter>
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/shop" element={<Shop />} />
-				<Route path="/shop/:id" element={<SingleProduct />} />
-				<Route path="/signup" element={<Signup />} />
-				<Route path="/login" element={<Login />} />
-			</Routes>
-			<Routes>
-				<Route path="/dashboard" element={<Dashboard />} />
-				<Route path="/dashboard/user" element={<Users />} />
-				<Route path="/dashboard/products" element={<DashboardProducts />} />
-				<Route path="/dashboard/categories" element={<DashboardCategories />} />
-				<Route path="/dashboard/orders" element={<Orders />} />
-				<Route
-					path="/dashboard/products/addproducts"
-					element={<AddProducts />}
-				/>
-				<Route
-					path="/dashboard/categories/addcategory"
-					element={<AddCategory />}
-				/>
-			</Routes>
-		</BrowserRouter>
-	);
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/shop/:id" element={<SingleProduct />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckOut />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+      <Routes>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/user" element={<Users />} />
+        <Route path="/dashboard/products" element={<DashboardProducts />} />
+        <Route path="/dashboard/categories" element={<DashboardCategories />} />
+        <Route path="/dashboard/orders" element={<Orders />} />
+        <Route
+          path="/dashboard/products/addproducts"
+          element={<AddProducts />}
+        />
+        <Route
+          path="/dashboard/categories/addcategory"
+          element={<AddCategory />}
+        />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;

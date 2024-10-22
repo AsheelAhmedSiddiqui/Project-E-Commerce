@@ -37,6 +37,11 @@ export default function CateTable() {
 		// Cleanup the listener when the component is unmounted
 		return () => unsubscribe();
 	}, []);
+
+	// function handleDelete () {
+	// 	Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis at asperiores
+	// }
+
 	return (
 		<div className="flex flex-col w-[1000px] mx-auto my-8">
 			<div className=" flex justify-between items-center mx-2">

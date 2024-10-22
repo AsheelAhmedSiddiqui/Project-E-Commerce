@@ -1,6 +1,7 @@
 import {
 	faClipboardCheck,
 	faThLarge,
+	faThList,
 	faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { faCartFlatbed } from "@fortawesome/free-solid-svg-icons/faCartFlatbed";
@@ -125,7 +126,7 @@ export default function DashboardInfo() {
 							</tr>
 							<tr>
 								<td className="flex items-center gap-2 border py-2 text-left px-4 font-medium">
-									<FontAwesomeIcon icon={faThLarge} color="#f5a524" />
+									<FontAwesomeIcon icon={faThList} color="#f5a524" />
 									Total Categories
 								</td>
 								<td className="border py-2 text-center">
