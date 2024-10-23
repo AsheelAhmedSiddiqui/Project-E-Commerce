@@ -35,31 +35,31 @@ export default function Slider() {
 				className="mySwiper"
 			>
 				<SwiperSlide>
-					<img src="/public/images/img33.png" className="h-[500px]" />
+					<img src="/images/img33.png" className="h-[500px]" />
 				</SwiperSlide>
 				<SwiperSlide>
-					<img src="/public/images/img33.png" className="h-[500px]" />
+					<img src="/images/img33.png" className="h-[500px]" />
 				</SwiperSlide>
 				<SwiperSlide>
-					<img src="/public/images/img33.png" className="h-[500px]" />
+					<img src="/images/img33.png" className="h-[500px]" />
 				</SwiperSlide>
 				<SwiperSlide>
-					<img src="/public/images/img33.png" className="h-[500px]" />
+					<img src="/images/img33.png" className="h-[500px]" />
 				</SwiperSlide>
 				<SwiperSlide>
-					<img src="/public/images/img33.png" className="h-[500px]" />
+					<img src="/images/img33.png" className="h-[500px]" />
 				</SwiperSlide>
 				<SwiperSlide>
-					<img src="/public/images/img33.png" className="h-[500px]" />
+					<img src="/images/img33.png" className="h-[500px]" />
 				</SwiperSlide>
 				<SwiperSlide>
-					<img src="/public/images/img33.png" className="h-[500px]" />
+					<img src="/images/img33.png" className="h-[500px]" />
 				</SwiperSlide>
 				<SwiperSlide>
-					<img src="/public/images/img33.png" className="h-[500px]" />
+					<img src="/images/img33.png" className="h-[500px]" />
 				</SwiperSlide>
 				<SwiperSlide>
-					<img src="/public/images/img33.png" className="h-[500px]" />
+					<img src="/images/img33.png" className="h-[500px]" />
 				</SwiperSlide>
 			</Swiper>
 		</>
