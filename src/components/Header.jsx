@@ -42,7 +42,7 @@ export default function MyHeader() {
 				className="flex items-center flex-shrink-0
             "
 			>
-				<img width={50} src="/public/logo.png" alt="furnio logo" />
+				<img width={50} src="/images/logo.png" alt="furnio logo" />
 				<p className="font-bold text-2xl">Furniro</p>
 			</NavbarBrand>
 			<NavbarContent className="hidden sm:flex gap-6" justify="center">

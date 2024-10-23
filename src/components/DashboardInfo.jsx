@@ -15,11 +15,12 @@ export default function DashboardInfo() {
 	const [users, setUsers] = useState([]);
 	const [products, setProducts] = useState([]);
 	const [categories, setCategories] = useState([]);
-	const [orders, setOrders] = useState([]);
+	const [order, setOrder] = useState([]);
 
 	const [userLoading, setUserLoading] = useState(false);
 	const [proLoading, setProLoading] = useState(false);
 	const [cateLoading, setCateLoading] = useState(false);
+	const [orderLoading, setOrderLoading] = useState(false);
 
 	useEffect(() => {
 		// Real-time listener for categories collection
@@ -69,11 +70,27 @@ export default function DashboardInfo() {
 		return () => unsubscribe();
 	}, []);
 
+	useEffect(() => {
+		// Real-time listener for categories collection
+		setOrderLoading(true);
+		const unsubscribe = onSnapshot(collection(db, "orders"), (snapshot) => {
+			const cateList = snapshot.docs.map((doc) => ({
+				id: doc.id,
+				...doc.data(),
+			}));
+			setOrder(cateList);
+			setOrderLoading(false);
+		});
+
+		// Cleanup the listener when the component is unmounted
+		return () => unsubscribe();
+	}, []);
+
 	return (
 		<div className="flex flex-col w-[1000px] mx-auto items-center justify-center my-8">
 			<div className="grid grid-cols-3 gap-4 border py-3 px-4 ">
 				<div className="left-area col-span-2">
-					<Image src="/public/images/img1.jpg" />
+					<Image src="/images/img1.jpg" />
 				</div>
 				<div className="right-area">
 					<table className="w-[100%] border-spacing-3">
@@ -103,7 +120,7 @@ export default function DashboardInfo() {
 									<FontAwesomeIcon icon={faUsers} color="#f5a524" />
 									Total Users
 								</td>
-								<td className="border py-2 text-center">
+								<td className="border py-2 text-center px-4">
 									{userLoading ? (
 										<Spinner color="warning" size="sm" />
 									) : (
@@ -116,7 +133,7 @@ export default function DashboardInfo() {
 									<FontAwesomeIcon icon={faCartFlatbed} color="#f5a524" />
 									Total Products
 								</td>
-								<td className="border py-2 text-center">
+								<td className="border py-2 text-center px-4">
 									{proLoading ? (
 										<Spinner color="warning" size="sm" />
 									) : (
@@ -129,7 +146,7 @@ export default function DashboardInfo() {
 									<FontAwesomeIcon icon={faThList} color="#f5a524" />
 									Total Categories
 								</td>
-								<td className="border py-2 text-center">
+								<td className="border py-2 text-center px-4">
 									{cateLoading ? (
 										<Spinner color="warning" size="sm" />
 									) : (
@@ -142,7 +159,13 @@ export default function DashboardInfo() {
 									<FontAwesomeIcon icon={faClipboardCheck} color="#f5a524" />
 									Total Orders
 								</td>
-								<td className="border py-2 text-center">500</td>
+								<td className="border py-2 text-center px-4">
+									{orderLoading ? (
+										<Spinner color="warning" size="sm" />
+									) : (
+										order.length
+									)}
+								</td>
 							</tr>
 						</tbody>
 					</table>
