@@ -38,7 +38,9 @@ export default function MyOrders() {
 		<div>
 			<MyHeader />
 			<div className="w-[1100px] mx-auto my-24">
-				<h1 className="text-center text-warning-500 text-4xl mb-6">My Orders</h1>
+				<h1 className="text-center text-warning-500 text-4xl mb-6">
+					My Orders
+				</h1>
 				{loading ? (
 					<div className="text-center mt-16">
 						<Spinner label="Your Orders Loading... " color="warning" />
