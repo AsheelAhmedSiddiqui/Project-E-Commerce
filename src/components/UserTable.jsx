@@ -65,12 +65,12 @@ export default function UsersTable() {
 				className="w-[1000px] mx-auto my-4"
 			>
 				<TableHeader>
-					<TableColumn>USERNAME</TableColumn>
-					<TableColumn>PASSWORD</TableColumn>
-					<TableColumn>EMAIL</TableColumn>
-					<TableColumn>CREATED AT</TableColumn>
-					<TableColumn>ROLE</TableColumn>
-					<TableColumn>STATUS</TableColumn>
+					<TableColumn className="bg-warning-500 text-white" >USERNAME</TableColumn>
+					<TableColumn className="bg-warning-500 text-white" >PASSWORD</TableColumn>
+					<TableColumn className="bg-warning-500 text-white" >EMAIL</TableColumn>
+					<TableColumn className="bg-warning-500 text-white" >CREATED AT</TableColumn>
+					<TableColumn className="bg-warning-500 text-white" >ROLE</TableColumn>
+					<TableColumn className="bg-warning-500 text-white" >STATUS</TableColumn>
 				</TableHeader>
 				<TableBody>
 					{loading ? (

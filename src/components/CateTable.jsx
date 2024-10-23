@@ -66,10 +66,18 @@ export default function CateTable() {
 				className="w-[1000px] mx-auto my-4"
 			>
 				<TableHeader>
-					<TableColumn>CATEGORY NAME</TableColumn>
-					<TableColumn>CREATED AT</TableColumn>
-					<TableColumn>CATEGORY DESCRIPITON</TableColumn>
-					<TableColumn>STATUS</TableColumn>
+					<TableColumn className="bg-warning-500 text-white">
+						CATEGORY NAME
+					</TableColumn>
+					<TableColumn className="bg-warning-500 text-white">
+						CREATED AT
+					</TableColumn>
+					<TableColumn className="bg-warning-500 text-white">
+						CATEGORY DESCRIPITON
+					</TableColumn>
+					<TableColumn className="bg-warning-500 text-white">
+						STATUS
+					</TableColumn>
 				</TableHeader>
 				<TableBody>
 					{loading ? (

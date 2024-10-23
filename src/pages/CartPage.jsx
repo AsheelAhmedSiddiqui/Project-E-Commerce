@@ -11,9 +11,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@nextui-org/react";
 import { Link } from "react-router-dom";
+import { auth } from "../firebase utils";
 
 export default function CartPage() {
 	const { cart, increaseQuantity, removeCart } = useContext(CartContext);
+
+	const user = auth.currentUser;
 
 	const totalItemsQuantity = cart.reduce(
 		(value, items) => value + items.quantity,
@@ -134,7 +137,7 @@ export default function CartPage() {
 									color="warning"
 									className="rounded w-full text-base font-medium py-2 px-4"
 								>
-									<Link to={"/checkout"} className="w-full">
+									<Link to={user ? "/checkout" : "/login"} className="w-full">
 										Check Out
 									</Link>
 								</Button>

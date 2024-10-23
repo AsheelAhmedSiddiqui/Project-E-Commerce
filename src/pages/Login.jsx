@@ -4,7 +4,7 @@ import { Button, Input } from "@nextui-org/react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { auth } from "../firebase utils";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
 	const [email, setEmail] = useState(null);
@@ -73,6 +73,15 @@ export default function Login() {
 						<FontAwesomeIcon icon={faGoogle} />
 						Login to Google
 					</Button>
+					<p>
+						If you are not register then{" "}
+						<Link
+							to={"/signup"}
+							className="text-warning-500 hover:underline pr-4"
+						>
+							Signup Now!
+						</Link>
+					</p>
 				</form>
 			</div>
 

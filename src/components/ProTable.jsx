@@ -63,14 +63,24 @@ export default function ProTable() {
 				className="w-[1000px] mx-auto my-6"
 			>
 				<TableHeader>
-					<TableColumn>IMAGE</TableColumn>
-					<TableColumn>PRODUCT NAME</TableColumn>
-					<TableColumn>PRICE</TableColumn>
-					<TableColumn>CREATED AT</TableColumn>
-					<TableColumn>PRODUCT DESCRIPTION</TableColumn>
-					<TableColumn>PRODUCT CATEGORY</TableColumn>
-					<TableColumn>STOCK</TableColumn>
-					<TableColumn>STATUS</TableColumn>
+					<TableColumn className="bg-warning-500 text-white">IMAGE</TableColumn>
+					<TableColumn className="bg-warning-500 text-white">
+						PRODUCT NAME
+					</TableColumn>
+					<TableColumn className="bg-warning-500 text-white">PRICE</TableColumn>
+					<TableColumn className="bg-warning-500 text-white">
+						CREATED AT
+					</TableColumn>
+					<TableColumn className="bg-warning-500 text-white">
+						PRODUCT DESCRIPTION
+					</TableColumn>
+					<TableColumn className="bg-warning-500 text-white">
+						PRODUCT CATEGORY
+					</TableColumn>
+					<TableColumn className="bg-warning-500 text-white">STOCK</TableColumn>
+					<TableColumn className="bg-warning-500 text-white">
+						STATUS
+					</TableColumn>
 				</TableHeader>
 				<TableBody>
 					{loading ? (
